@@ -11,6 +11,15 @@ const FriendsList = () => {
         getData();
     }, [])
 
+    const deleteItem = (id) => {
+        const deletedList = friendsList.filter(item => item.id !== id);
+        setFriendsList(deletedList);
+    }
+
+    // const editItem = (id) => {
+    //     setFriendsList = friendsList.
+    // }
+
     const getData = () => {
         axiosWithAuth()
             .get('http://localhost:5000/api/friends')
@@ -28,7 +37,7 @@ const FriendsList = () => {
     return (
         <>
             <FriendForm />
-            {friendsList.map(friend => <Friend id={friend.id} info={friend} /> )}
+            {friendsList.map(friend => <Friend key={friend.id} info={friend} delete={deleteItem}/> )}
 
         </>
     )

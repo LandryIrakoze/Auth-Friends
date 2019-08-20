@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import axios from 'axios';
 import { axiosWithAuth } from '../utils/axiosWithAuth';
 
 const FriendForm = () => {
@@ -25,7 +24,7 @@ const FriendForm = () => {
             </label>
             <label>
                 Age:
-                <input type="text" name="age" value={newFriend.age} onChange={event => handleChange(event)} />
+                <input type="number" name="age" value={newFriend.age} onChange={event => handleChange(event)} />
             </label>
             <label>
                 Email:
