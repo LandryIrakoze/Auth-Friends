@@ -13,7 +13,12 @@ const FriendsList = () => {
 
     const deleteItem = (id) => {
         const deletedList = friendsList.filter(item => item.id !== id);
+        const deletedItem = friendsList.filter(item => item.id === id);
         setFriendsList(deletedList);
+        axiosWithAuth()
+            .delete('http://localhost:5000/api/friends/${id}', deleteItem)
+            .then(res => console.log('delete res', res))
+            .catch(err => console.error('error', err))
     }
 
     // const editItem = (id) => {
