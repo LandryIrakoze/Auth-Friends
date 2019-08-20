@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
 
 const Login = () => {
@@ -14,6 +14,8 @@ const Login = () => {
         axios.post('http://localhost:5000/api/login', userInfo)
             .then(res => {
                 console.log('response', res);
+                localStorage.setItem('token', res.data.payload);
+
             })
             .catch(err => {
                 console.error('error', err);
