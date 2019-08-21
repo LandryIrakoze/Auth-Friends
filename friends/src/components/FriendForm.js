@@ -1,19 +1,40 @@
 import React, { useState } from 'react';
 import { axiosWithAuth } from '../utils/axiosWithAuth';
 
-const FriendForm = () => {
+const FriendForm = (props) => {
+
+    const { edit, setEdit, item } = props;
+    console.log('edit', edit);
+    console.log('item', item);
+
     const [newFriend, setNewFriend] = useState({ name: '', age: '', email: '' });
 
     const handleChange = (event) => {
-        setNewFriend({ ...newFriend, [event.target.name]: event.target.value })
+        if(edit) {
+            setNewFriend({...item, [event.target.name]: event.target.value})
+        } else {
+            setNewFriend({ ...newFriend, [event.target.name]: event.target.value })
+        }
     }
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        axiosWithAuth()
-            .post('http://localhost:5000/api/friends', newFriend)
-            .then(res => console.log('friend res', res))
-            .catch(err => console.error('error', err))
+        if(!edit) {
+            axiosWithAuth()
+                .post('http://localhost:5000/api/friends', newFriend)
+                .then(res => console.log('friend res', res))
+                .catch(err => console.error('error', err))
+        } else {
+            axiosWithAuth()
+                .put(`http://localhost:5000/api/friends/${item.id}`, newFriend)
+                .then(res => {
+                    console.log('response', res)
+                })
+                .catch(err => {
+                    console.log('error', err)
+                })
+        }
+        setEdit(false);
     }
 
     return (

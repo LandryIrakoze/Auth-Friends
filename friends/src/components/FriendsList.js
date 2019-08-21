@@ -6,24 +6,30 @@ import FriendForm from './FriendForm';
 const FriendsList = () => {
 
     const [friendsList, setFriendsList] = useState([]);
+    const [isEditing, setIsEditing] = useState(false);
+    const [editedItem, setEditedItem] = useState({});
 
     useEffect(() => {
         getData();
     }, [])
 
     const deleteItem = (id) => {
-        const deletedList = friendsList.filter(item => item.id !== id);
-        const deletedItem = friendsList.filter(item => item.id === id);
-        setFriendsList(deletedList);
+        // const deletedList = friendsList.filter(item => item.id !== id);
+        // const deletedItem = friendsList.filter(item => item.id === id);
+        // setFriendsList(deletedList);
         axiosWithAuth()
-            .delete('http://localhost:5000/api/friends/${id}', deleteItem)
+            .delete(`http://localhost:5000/api/friends/${id}`, deleteItem)
             .then(res => console.log('delete res', res))
             .catch(err => console.error('error', err))
     }
 
-    // const editItem = (id) => {
-    //     setFriendsList = friendsList.
-    // }
+    const editItem = (id) => {
+        console.log(friendsList);
+        const itemToEdit = friendsList.find(item => item.id === id);
+        setIsEditing(true);
+        setEditedItem(itemToEdit);
+        console.log('to edit', editedItem);
+    }
 
     const getData = () => {
         axiosWithAuth()
@@ -41,8 +47,8 @@ const FriendsList = () => {
 
     return (
         <>
-            <FriendForm />
-            {friendsList.map(friend => <Friend key={friend.id} info={friend} delete={deleteItem}/> )}
+            <FriendForm edit={isEditing} setEdit={setIsEditing} item={editedItem}/>
+            {friendsList.map(friend => <Friend key={friend.id} info={friend} delete={deleteItem} edit={editItem}/> )}
 
         </>
     )
