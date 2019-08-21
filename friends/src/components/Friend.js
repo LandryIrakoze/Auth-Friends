@@ -2,11 +2,6 @@ import React from 'react';
 
 const Friend = (props) => {
 
-    // const { info } = props;
-    
-    console.log('props', props);
-
-
     return (
         <>
             <p>name: {props.info.name}</p>
@@ -19,5 +14,3 @@ const Friend = (props) => {
 }
 
 export default Friend;
-
-//add GET request to  /api/friends/:id  HERE

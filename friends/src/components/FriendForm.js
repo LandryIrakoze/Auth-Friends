@@ -2,11 +2,7 @@ import React, { useState } from 'react';
 import { axiosWithAuth } from '../utils/axiosWithAuth';
 
 const FriendForm = (props) => {
-
-    const { edit, setEdit, item } = props;
-    console.log('edit', edit);
-    console.log('item', item);
-
+    const { edit, setEdit, item, retrieve } = props;
     const [newFriend, setNewFriend] = useState({ name: '', age: '', email: '' });
 
     const handleChange = (event) => {
@@ -24,6 +20,7 @@ const FriendForm = (props) => {
                 .post('http://localhost:5000/api/friends', newFriend)
                 .then(res => console.log('friend res', res))
                 .catch(err => console.error('error', err))
+            retrieve();
         } else {
             axiosWithAuth()
                 .put(`http://localhost:5000/api/friends/${item.id}`, newFriend)
@@ -33,6 +30,7 @@ const FriendForm = (props) => {
                 .catch(err => {
                     console.log('error', err)
                 })
+            retrieve();
         }
         setEdit(false);
     }
